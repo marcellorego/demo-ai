@@ -1,0 +1,35 @@
+AI_TOOL_BASE_URL: http://localhost:11434
+# model:tag
+DEFAULT_LLM_MODEL: llama3.1
+
+CHAT_OPTIONS_MODEL: ${DEFAULT_LLM_MODEL}
+CHAT_OPTIONS_TEMPERATURE: 0.7
+CHAT_OPTIONS_TOP_P: 1
+
+server.port: 8787
+
+spring:
+  application:
+    name: spring-ai-openai
+  main:
+    allow-bean-definition-overriding: true
+
+  ai:
+    openai:
+      base-url: ${AI_TOOL_BASE_URL}
+      api-key: ${OPENAI_API_KEY}
+
+#      chat:
+#        enabled: true
+#        model: ${DEFAULT_LLM_MODEL}
+#        options:
+#          model: ${CHAT_OPTIONS_MODEL}
+#          temperature: ${CHAT_OPTIONS_TEMPERATURE}
+#          top-p: ${CHAT_OPTIONS_TOP_P}
+
+
+
+
+# Logging configuration
+logging.level:
+  com.softway.ai: DEBUG

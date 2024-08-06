@@ -1,0 +1,32 @@
+##############################
+## IntelliJ IDEA
+##############################
+out/
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+
+##############################
+## Gradle
+##############################
+.gradle/*
+gradle/*
+
+##############################
+## Project folders
+##############################
+**/docker-compose/
+**/caches/
+**/daemon/
+**/jdks/
+**/native/
+**/notifications/
+**/workers/
+**/.ash_history
+**/.tags
+**/.m2
+**/.java
+**/heapdump.**
+**/javacore.**

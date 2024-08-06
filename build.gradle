@@ -1,0 +1,15 @@
+plugins {
+    id 'idea'
+}
+
+tasks.register('clean') {
+    dependsOn gradle.includedBuilds*.task(':clean')
+}
+
+tasks.register('build') {
+    dependsOn gradle.includedBuilds*.task(':build')
+}
+
+tasks.register('test') {
+    dependsOn gradle.includedBuilds*.task(':test')
+}

@@ -1,0 +1,85 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.2'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.softway.ai'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springAiVersion', "1.0.0-M1")
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	implementation {
+		exclude group: 'hsqldb', module: 'hsqldb'
+		exclude group: 'io.netty', module: 'netty'
+		exclude group: 'com.vaadin.external.google', module: 'android-json'
+		exclude group: 'org.freemarker', module: 'freemarker'
+		exclude group: 'org.glassfish.jaxb', module: 'txw2'
+		exclude group: 'org.hsqldb', module: 'hsqldb'
+		exclude group: 'commons-logging', module: 'commons-logging'
+		/* remove javax dependency from swagger library */
+		exclude group: 'io.swagger.core.v3', module: 'swagger-annotations'
+		/* only junit 5 should be used */
+		exclude group: 'junit', module: 'junit'
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+	}
+}
+
+dependencies {
+	implementation ("org.springframework.boot:spring-boot-starter-web") {
+		exclude(module: "spring-boot-starter-tomcat")
+	}
+	implementation("org.springframework.boot:spring-boot-starter-jetty")
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+	implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+
+	// Test Logging
+	testLogging {
+		exceptionFormat = "full"
+		showExceptions = true
+		showCauses = true
+		showStackTraces = true
+		showStandardStreams = false
+		events = ["standardError", "passed", "skipped", "failed"]
+	}
+
+	reports {
+		html.required.set(true)
+		junitXml.required.set(true)
+	}
+}

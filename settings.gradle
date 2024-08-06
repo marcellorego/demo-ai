@@ -1,0 +1,11 @@
+dependencyResolutionManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'demo-ai'
+
+includeBuild './spring-ai-ollama'
+includeBuild './spring-ai-openai'
