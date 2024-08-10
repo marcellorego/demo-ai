@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  api:
+    image: localai/localai:latest-aio-cpu
+    # For a specific version:
+    # image: localai/localai:v2.19.2-aio-cpu
+    # For Nvidia GPUs decomment one of the following (cuda11 or cuda12):
+    # image: localai/localai:v2.19.2-aio-gpu-nvidia-cuda-11
+    # image: localai/localai:v2.19.2-aio-gpu-nvidia-cuda-12
+    # image: localai/localai:latest-aio-gpu-nvidia-cuda-11
+    # image: localai/localai:latest-aio-gpu-nvidia-cuda-12
+    hostname: localai
+    container_name: localai
+    pull_policy: always
+    tty: true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/readyz"]
+      interval: 1m
+      timeout: 20m
+      retries: 5
+    ports:
+      - 15777:8080
+    environment:
+      - DEBUG=true
+      # ...
+    volumes:
+      - ./localai:/build/models:cached
+    # decomment the following piece if running with Nvidia GPUs
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]

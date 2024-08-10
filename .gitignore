@@ -7,6 +7,7 @@ build/
 **/docker-compose/**
 **/docker-compose/localai/**
 **/docker-compose/ollama/**
+!**/docker-compose/docker-compose-*.yaml
 
 ### STS ###
 .apt_generated
