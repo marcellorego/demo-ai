@@ -6,6 +6,7 @@ CURRENT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 USER_ID:=$(shell id -u ${USER})
 USER_GROUP:=$(shell id -g ${USER})
 APPLICATION_NAME=demo-ollama
+NETWORK_NAME=$(APPLICATION_NAME)_network
 CONTAINER_NAME?=$(APPLICATION_NAME)_$(shell openssl rand -hex 8)
 GRADLE_DIR:=$(shell echo $(HOME)/.gradle)
 SUDO:=$(if $(filter Windows_NT, $(OS)),,sudo)
@@ -32,6 +33,9 @@ prune:
 		docker volume prune -f && \
 		docker network prune -f
 
+network:
+	(docker network inspect $(NETWORK_NAME) || docker network create --driver bridge $(NETWORK_NAME))
+
 NvidiaGPU:
     # Install the NVIDIA Container Toolkit via APT
     # Configure the repository
@@ -51,6 +55,7 @@ NvidiaGPU:
 ollamaCPU:
 	docker run -it --rm \
         --name ollama \
+		--network $(NETWORK_NAME) \
         -p 11434:11434 \
         -v $(CURRENT_DIR)/docker-compose/ollama:/root/.ollama \
          ollama/ollama:latest
@@ -58,6 +63,7 @@ ollamaCPU:
 ollamaGPU:
 	docker run -it --rm \
         --name ollama \
+		--network $(NETWORK_NAME) \
         -p 11434:11434 \
         -v $(CURRENT_DIR)/docker-compose/ollama:/root/.ollama \
         --gpus $(DEFAULT_GPUS) \
@@ -72,13 +78,31 @@ ollamaUp:
 ollamaDown:
 	docker-compose -f docker-compose/docker-compose-env.yaml down
 
+# https://docs.openwebui.com/
+#-e USE_OLLAMA_DOCKER=false
+#-e OLLAMA_BASE_URL=http://host.docker.internal:11434
+
+webUI:
+	docker run -it --rm \
+		--name open-webui \
+		--network $(NETWORK_NAME) \
+		-p 3000:8080 \
+		-e ENV=dev \
+		-e WEBUI_AUTH=false \
+        --add-host=host.docker.internal:host-gateway \
+		-v $(CURRENT_DIR)/docker-compose/open-webui:/app/backend/data \
+		--gpus $(DEFAULT_GPUS) \
+		ghcr.io/open-webui/open-webui:main
+
 localAI:
 	docker run -it --rm \
         --name local-ai \
         -p 15777:8080 \
         -v $(CURRENT_DIR)/docker-compose/localai:/build/models:cached \
         localai/localai:latest-aio-cpu
-# Alternative images:
+
+# Alternative params & images:
+# -u $(USER_ID):$(USER_ID) \
 # --gpus $(DEFAULT_GPUS) \
 # - if you have an Nvidia GPU:
 # docker run -ti --name local-ai -p 8080:8080 --gpus all localai/localai:latest-aio-gpu-nvidia-cuda-12
