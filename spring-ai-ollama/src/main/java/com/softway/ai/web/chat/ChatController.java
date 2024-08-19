@@ -1,6 +1,10 @@
-package com.softway.ai.web;
+package com.softway.ai.web.chat;
 
+import com.softway.ai.web.chat.dto.ChatResponse;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.model.Generation;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +24,8 @@ public class ChatController {
   @GetMapping("/ai")
   ChatResponse generation(@RequestParam("prompt") final String prompt) {
 
-    final String message = this.chatClient.prompt()
+    final String message = this.chatClient
+        .prompt()
         .user(prompt)
         .call()
         .content();

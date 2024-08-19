@@ -2,10 +2,13 @@ dependencyResolutionManagement {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://repo.spring.io/snapshot' }
     }
 }
 
 rootProject.name = 'demo-ai'
 
-includeBuild './spring-ai-ollama'
-includeBuild './spring-ai-openai'
+//includeBuild './spring-ai-ollama'
+//includeBuild './spring-ai-openai'
+includeBuild './langchain4j-ollama'

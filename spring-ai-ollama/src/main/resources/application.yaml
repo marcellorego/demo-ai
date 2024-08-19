@@ -6,7 +6,7 @@ CHAT_OPTIONS_MODEL: ${DEFAULT_LLM_MODEL}
 CHAT_OPTIONS_TEMPERATURE: 0.7
 CHAT_OPTIONS_TOP_P: 1
 
-server.port: 8080
+server.port: 8787
 
 spring:
   application:
@@ -34,3 +34,4 @@ weather:
 # Logging configuration
 logging.level:
     com.softway.ai: DEBUG
+    org.springframework.ai.ollama: DEBUG

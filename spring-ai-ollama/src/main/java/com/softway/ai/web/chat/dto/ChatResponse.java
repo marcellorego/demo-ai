@@ -1,4 +1,4 @@
-package com.softway.ai.web;
+package com.softway.ai.web.chat.dto;
 
 import lombok.Builder;
 import lombok.Data;

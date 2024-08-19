@@ -69,6 +69,9 @@ ollamaGPU:
         --gpus $(DEFAULT_GPUS) \
         ollama/ollama:latest
 
+ollamaPull:
+	docker exec ollama ollama pull $(DEFAULT_MODEL)
+
 ollamaModel:
 	docker exec -it ollama ollama run $(DEFAULT_MODEL)
 

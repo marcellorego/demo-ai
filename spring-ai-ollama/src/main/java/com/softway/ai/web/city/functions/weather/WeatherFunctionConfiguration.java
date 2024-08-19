@@ -17,7 +17,7 @@ public class WeatherFunctionConfiguration {
         this.props = props;
     }
 
-    @Bean
+    @Bean("currentWeatherFunction")
     @Description("Get the current weather conditions for the given city.")
     public Function<WeatherService.Request, WeatherService.Response> currentWeatherFunction() {
         return new WeatherService(props);

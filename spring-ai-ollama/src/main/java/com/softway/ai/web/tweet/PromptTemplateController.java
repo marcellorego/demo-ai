@@ -1,4 +1,4 @@
-package com.softway.ai.web;
+package com.softway.ai.web.tweet;
 
 import com.softway.ai.config.system.PromptLoader;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/template")
+  @RequestMapping("/template")
 @Slf4j
 public class PromptTemplateController {
 
@@ -48,7 +48,11 @@ public class PromptTemplateController {
   @GetMapping("/ai")
   String generation(@RequestParam("comment") final String comment) {
 
-    final Prompt prompt = promptLoader.getPromptTemplate("user/sentiment").create(Map.of("comment", comment));
+    final Prompt prompt = promptLoader
+        .getPromptTemplate("user/sentiment")
+        .create(Map.of(
+            "comment", comment
+        ));
 
     final Generation generation = generateResponse(prompt);
 

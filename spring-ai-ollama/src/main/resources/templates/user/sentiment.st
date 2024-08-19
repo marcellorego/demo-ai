@@ -1,3 +1,2 @@
 <<Comment: {comment}>> from this phrase, determine and only answer whether it is Sad, Angry, Happy, Surprised, or Normal.
 ONLY ONE WORD WITHOUT ANY ADDITIONAL SYMBOL OR CHARACTER.
-Structure of the answer: {Emotion}
