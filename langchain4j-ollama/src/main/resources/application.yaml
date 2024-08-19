@@ -1,0 +1,38 @@
+AI_TOOL_BASE_URL: http://localhost:11434
+# model:tag
+DEFAULT_LLM_MODEL: llama3.1
+
+CHAT_OPTIONS_MODEL: ${DEFAULT_LLM_MODEL}
+CHAT_OPTIONS_TEMPERATURE: 0.7
+CHAT_OPTIONS_TOP_P: 1
+
+server.port: 8787
+
+spring:
+  application:
+    name: langchain4j-ollama
+  main:
+    allow-bean-definition-overriding: true
+
+ai:
+  ollama:
+    base-url: ${AI_TOOL_BASE_URL}
+    chat:
+      enabled: true
+      model: ${DEFAULT_LLM_MODEL}
+      memory:
+        maxMessages: 10
+      options:
+        maxRetries: 2
+        timeout: 2M
+        temperature: ${CHAT_OPTIONS_TEMPERATURE}
+        top-p: ${CHAT_OPTIONS_TOP_P}
+
+weather:
+  api-key: ${WEATHER_API_KEY}
+  api-url: https://api.weatherapi.com/v1
+
+
+# Logging configuration
+logging.level:
+    com.softway.ai: DEBUG
